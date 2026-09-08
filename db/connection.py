@@ -1,17 +1,18 @@
-from dotenv import load_dotenv
-import os
+# from dotenv import load_dotenv
+# import os
 from pinecone import Pinecone, ServerlessSpec
+from backend.app.config import settings
 
-load_dotenv()
+# load_dotenv()
 
-PINECONE_API = os.getenv("PINECONE_API")
-GROQ_API = os.getenv("GROQ_API")
+# PINECONE_API = os.getenv("PINECONE_API")
+# GROQ_API = os.getenv("GROQ_API")
 
-pc = Pinecone(api_key=PINECONE_API)
+pc = Pinecone(settings.PINECONE_API_KEY)
 
 def create_index():
   pc.create_index(
-    name="codebase-assistant",
+    name=settings.PINECONE_INDEX,
     dimension=1024,
     metric="cosine",
     spec=ServerlessSpec(
