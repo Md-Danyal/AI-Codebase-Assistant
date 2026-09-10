@@ -6,6 +6,9 @@ def insert_vectors(embedding,chunks, repo_name):
   print(type(chunks))
   print(type(chunks[0]))
   
+  if not chunks:
+    raise ValueError("No chunks were extracted from the repository.")
+  
   for embedd,chunk in zip(embedding,chunks):
     vectors.append({
         "id": f"{chunk['file_path']}:{chunk['start_line']}",

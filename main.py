@@ -2,11 +2,19 @@ from fastapi import FastAPI
 
 from backend.app.routers.chat import router as chat_router
 from backend.app.routers.repositories import router as repository_router
-
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI(
     title="AI Codebase Assistant",
     version="2.0.0"
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 app.include_router(chat_router, prefix="/api/v1")

@@ -10,9 +10,16 @@ router = APIRouter(
 
 @router.post("/ingest")
 def ingest_repo(request: GitHubRequest):
-  git_extraction(str(request.repo_url))
+    repo_name = str(request.repo_url).rstrip("/").split("/")[-1]
+    result = git_extraction(str(request.repo_url))
 
-  return {
+    return {
         "status": "success",
-        "message": "Repository indexed successfully."
+        "message": "Repository indexed successfully.",
+        "repository": {"repo_name": repo_name, "url": str(request.repo_url)},
+        "repo_url": str(request.repo_url),
+        "indexing": {
+            "python_files": result["python_files"],
+            "chunks": result["chunks"]
+        }
     }

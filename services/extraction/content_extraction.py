@@ -3,14 +3,14 @@ from ..chunker import code_chunker
 from ..embedding import embedding_chunks
 
 def extract_contents(path, repo_name):
-  dir = Path(path)
+  directory = Path(path)
   
-  modules = list(dir.rglob("*.py"))
+  modules = list(directory.rglob("*.py"))
   
   print("Python files found:", len(modules))
 
-  for m in modules:
-    print(m)
+    # for m in modules:
+    #   print(m)
     
   documents = []
   all_chunks = []
@@ -28,5 +28,10 @@ def extract_contents(path, repo_name):
     all_chunks.extend(chunks)
     # print("all_chunks", all_chunks)
     
-  return embedding_chunks(all_chunks, repo_name)
+  embedding_results = embedding_chunks(all_chunks, repo_name)
+  return {
+    "python_files": len(modules),
+    "chunks": len(all_chunks),
+    "embedding_result": embedding_results
+  }
   
